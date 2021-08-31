@@ -16,6 +16,9 @@ const connectDB = require("./config/db");
 
 // Routes Files
 const training = require("./routes/training");
+const evaluation = require("./routes/evaluation");
+const user = require("./routes/user");
+const response = require("./routes/response");
 
 //load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -35,21 +38,6 @@ if (process.env.NODE_ENV === "development") {
 //file uploads
 app.use(fileupload());
 
-//Set static folder
-//Set static folder
-
-app.use(express.static(path.join(__dirname, "public")));
-// if (process.env.NODE_ENV === "development") {
-//   app.use(express.static(path.join(__dirname, "public")));
-
-//   app.get("*", (req, res) =>
-//     res.sendFile(path.resolve(__dirname, "public", "index.html"))
-//   );
-// } else {
-//   app.get("/", (req, res) => {
-//     res.send("API is running....");
-//   });
-// }
 //Sanitize data
 app.use(mongoSanitize());
 
@@ -75,8 +63,21 @@ app.use(cors());
 //Mount Routers
 
 app.use("/api/v1/training/", training);
+app.use("/api/v1/evaluation/", evaluation);
+app.use("/api/v1/login/", user);
+app.use("/api/v1/response/", response);
 
 app.use(errorHandler);
+
+//Set static folder
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "public/index.html"), function (err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
 
 const PORT = process.env.PORT || 12000;
 const server = app.listen(
