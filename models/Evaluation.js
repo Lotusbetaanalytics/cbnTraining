@@ -4,6 +4,7 @@ const EvaluationSchema = new mongoose.Schema({
   question: {
     type: String,
   },
+  answer: [{ type: String }],
   createdAt: {
     type: Date,
     default: Date.now,
