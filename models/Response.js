@@ -8,6 +8,7 @@ const ResponseSchema = new mongoose.Schema({
   },
   question: { type: String, required: true },
   response: { type: String, required: true },
+  comments: { type: String },
   createdAt: {
     type: Date,
     default: Date.now,
